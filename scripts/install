@@ -1,0 +1,10 @@
+#!/bin/bash
+set -x
+rm -f ../billboard*.deb \
+  && bash -c 'source ~/.bashrc; execAlarm ./makedeb.sh' \
+  && rm -f ../../billboard/billboard-ui/i18n/*.qm \
+  && rm -rf ../../billboard/debian/billboard \
+  && deb=$(cd ..; ls billboard_*.deb) \
+  && scp ../$deb root@`n9`:~ \
+  && n9 -b /usr/local/bin/dpkg -i $deb \
+  && alarm -s success
